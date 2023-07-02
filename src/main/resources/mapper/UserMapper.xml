@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spongehah.hahhome.mapper.UserMapper">
+    
+    <!--User getUserByUsernameAndPassword(String username, String password);-->
+    <select id="getUserByUsernameAndPassword" resultType="com.spongehah.hahhome.pojo.User">
+        select * from t_user where username = #{username} and password = #{password}
+    </select>
+</mapper>

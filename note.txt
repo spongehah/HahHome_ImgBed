@@ -1,0 +1,43 @@
+访问数量使用AOP + redis + @Scheduled实现
+可以使用AOP配置全局事务
+
+部署服务器时，配置nginx 80端口反向代理到8090端口，实现无端口访问
+nginx配置中的server配置：
+server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+	    
+
+				 #反向代理到集群，配置负载均衡
+				 proxy_pass http://47.115.207.49:8099/;
+				 proxy_redirect off;
+				 proxy_set_header X-Real-IP $remote_addr;
+				 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+				 proxy_set_header Host $host;
+				 proxy_set_header Cookie $http_cookie;
+        }
+
+			#特殊图片访问路径
+			#在/www/wwwroot/default/imguploader/img/shareX创建toBlog目录，创建toBlog目录的软链接admin
+			#让在博客详情页和博客编辑页可以加载出用户上传的整个文件图片包中的图片
+			location ~*/(toBlog|admin)/image {			
+
+				 root /www/wwwroot/default/imguploader/img/shareX;
+				 index index.html index.htm;
+			}
+
+			#正常图片访问路径
+			location /shareX {
+				 root /www/wwwroot/default/imguploader/img;
+				 index index.html index.htm;
+			}
+
+			location ~*/(css|js|img|lib) {
+				 root html/static/;
+				 index index.html index.htm;
+			}
+
+			...
+}

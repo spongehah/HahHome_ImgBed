@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spongehah.hahhome.mapper.CommentMapper">
+    
+    <!--void deleteByBLogId(Long id);-->
+    <delete id="deleteByBLogId">
+        delete from t_comment where blog_id = #{id}
+    </delete>
+
+    <!--Integer getCommentCount();-->
+    <select id="getCommentCount" resultType="java.lang.Integer">
+        select count(*) from t_comment
+    </select>
+    
+    <!--List<Comment> getCommentsByBlogIdAndExtendsCommentIdIsNull(Long blogId);-->
+    <select id="getCommentsByBlogIdAndExtendsCommentIdIsNull" resultType="com.spongehah.hahhome.pojo.Comment">
+        select * from t_comment where blog_id = #{blogId} and extends_commentId is null
+    </select>
+    
+    <!--List<Comment> getSonCommentsByExtendsCommentId(Long extendsCommentId);-->
+    <select id="getSonCommentsByExtendsCommentId" resultType="com.spongehah.hahhome.pojo.Comment">
+        select * from t_comment where extends_commentId = #{extendsCommentId}
+    </select>
+    
+    <!--List<Comment> getCommentsByBlogIdWithoutSon(Long blogId);-->
+    <select id="getCommentsByBlogIdWithoutSon" resultType="com.spongehah.hahhome.pojo.Comment">
+        select  * from t_comment where blog_id = #{blogId}
+    </select>
+    
+    <!--Comment getCommentById(Long id);-->
+    <select id="getCommentById" resultType="com.spongehah.hahhome.pojo.Comment">
+        select * from t_comment where id = #{id}
+    </select>
+
+</mapper>

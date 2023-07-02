@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spongehah.hahhome.mapper.TagMapper">
+    
+    <!--int updateTag(Tag tag);-->
+    <update id="updateTag">
+        update t_tag set name = #{tag.name} where id = #{tag.id}
+    </update>
+
+    <!--Integer getTagCount();-->
+    <select id="getTagCount" resultType="java.lang.Integer">
+        select count(*) from t_tag
+    </select>
+    
+    <!--List<Tag> getTagsList();-->
+    <select id="getTagsList" resultType="com.spongehah.hahhome.pojo.Tag">
+        select * from t_tag
+    </select>
+    
+    <!--List<Tag> getTagListAndCount();-->
+    <select id="getTagListAndCount" resultType="com.spongehah.hahhome.pojo.Tag">
+        select tt.id,tt.name,count(tbr.tag_id) as count 
+        from t_tag tt
+        left join t_blog_tag_relation tbr on tbr.tag_id = tt.id
+        group by tt.id
+    </select>
+    
+    <!--List<Tag> getTagsByBlogId(Long blogId);-->
+    <select id="getTagsByBlogId" resultType="com.spongehah.hahhome.pojo.Tag">
+        select tt.*
+        from t_tag tt
+        join t_blog_tag_relation tbr on tbr.tag_id = tt.id
+        where tbr.blog_id = #{blogId}
+    </select>
+    
+    <!--List<Tag> getTagsByName(String tagName);-->
+    <select id="getTagsByName" resultType="com.spongehah.hahhome.pojo.Tag">
+        select * from t_tag where name = #{tagName}
+    </select>
+</mapper>

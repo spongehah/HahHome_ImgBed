@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spongehah.hahhome.mapper.BlogMapper">
+    
+    <sql id="blogColumns">
+        tb.id,tb.title,tb.first_Picture,tb.views,tb.recommendned,tb.createTime,
+        tb.editTime,tu.nickname  as user_name,tb.description,COUNT(tc.id) as comment_count
+    </sql>
+    
+    <!--Integer updateNumById(Integer views, Long id);-->
+    <update id="updateNumById">
+        update t_blog set views = #{views} where id = #{id}
+    </update>
+
+    <!--List<Blog> getBlogsPublishedList();-->
+    <select id="getBlogsPublishedList" resultType="com.spongehah.hahhome.pojo.Blog">
+        select <include refid="blogColumns"></include> 
+        from t_blog tb 
+        join t_user tu on tu.id = tb.user_id
+        left join t_comment tc on tc.blog_id = tb.id
+        where tb.published = 1 and tb.type = 0
+        group by tb.id
+        order by tb.recommendned desc ,tb.createTime desc 
+    </select>
+    
+    <!--Integer getBlogsPublishedCount();-->
+    <select id="getBlogsPublishedCount" resultType="java.lang.Integer">
+        select count(*) from t_blog where published = 1
+    </select>
+    
+    <!--Integer getBlogViewCount();-->
+    <select id="getBlogViewCount" resultType="java.lang.Integer">
+        select sum(views) from t_blog 
+    </select>
+    
+    <!--Blog getBlogById(Long id);-->
+    <select id="getBlogById" resultType="com.spongehah.hahhome.pojo.Blog">
+        select tb.id,
+               tb.title,
+               tb.createTime,
+               tb.editTime,
+               tb.commentabled,
+               tb.views,
+               tb.content,
+               tb.flag,
+               tu.nickname     user_name,
+               COUNT(tc.id) as comment_count
+        from t_blog tb 
+        join t_user tu on tu.id = tb.user_id
+        left join t_comment tc on tc.blog_id = tb.id
+        where tb.id = #{id}
+        GROUP BY tb.id
+        ORDER BY tb.recommendned desc, tb.createTime desc
+    </select>
+    
+    <!--List<Blog> getBlogsByTagId(Long tagId);-->
+    <select id="getBlogsByTagId" resultType="com.spongehah.hahhome.pojo.Blog">
+        SELECT tb.id,tb.title,tb.first_Picture,tb.views,tb.editTime,tb.createTime,tb.description,tu.nickname
+        user_name,COUNT(tc.id) as comment_count FROM `t_blog` tb
+        JOIN t_blog_tag_relation tbr ON tbr.blog_id=tb.id
+        JOIN t_tag tt ON tbr.tag_id=tt.id
+        JOIN t_user tu ON tb.user_id=tu.id
+        left JOIN t_comment tc ON tc.blog_id=tb.id
+        where tb.published=1 and tb.type=0
+        <if test="tagId !=null and tagId!='' and tagId!='0'">
+            and tbr.tag_id=#{tagId}
+        </if>
+        GROUP BY tb.id
+        ORDER BY tb.recommendned desc,tb.createTime desc
+    </select>
+    
+    <!--Blog getLinkOrAboutBlogByType(String type);-->
+    <select id="getLinkOrAboutBlogByType" resultType="long">
+        select id from t_blog where type = #{type}
+    </select>
+    
+    <!--List<Blog> getBlogsByCondition(Map<String, Object> map);-->
+    <select id="getBlogsByCondition" resultType="com.spongehah.hahhome.pojo.Blog" parameterType="map">
+        SELECT tb.id,tb.title,tb.flag,tb.published,tb.recommendned,tb.editTime,tb.createTime,tb.type FROM `t_blog` tb
+        <if test="tagIdConditions !=null and tagIdConditions != '' ">
+            JOIN t_blog_tag_relation tbr ON tbr.blog_id=tb.id
+            JOIN t_tag tt ON tbr.tag_id=tt.id
+        </if>
+        <where>
+            <if test="titleConditions !=null and titleConditions!= ''">
+                and tb.title LIKE concat('%',#{titleConditions},'%')
+            </if>
+            <if test="tagIdConditions !=null and tagIdConditions != '' ">
+                and tbr.tag_id = #{tagIdConditions}
+            </if>
+            <if test="recommendConditions !=null and recommendConditions != '' ">
+                and tb.recommendned = #{recommendConditions}
+            </if>
+        </where>
+        order by tb.type desc,tb.recommendned desc,tb.createTime DESC,tb.editTime DESC
+    </select>
+    
+    <!--Blog getBlogSimpleById(Long id);-->
+    <select id="getBlogSimpleById" resultType="com.spongehah.hahhome.pojo.Blog">
+        select * from t_blog where id = #{id}
+    </select>
+    
+    <!--List<Blog> getBlogIdAndTitle();-->
+    <select id="getBlogIdAndTitle" resultType="com.spongehah.hahhome.pojo.Blog">
+        select id,title from t_blog
+    </select>
+    
+    <!--List<String> getBLogYear();-->
+    <select id="getBLogYear" resultType="java.lang.String">
+        select date_format(tb.createTime, '%Y') as year from t_blog tb group by year order by year desc
+    </select>
+    
+    <!--List<Blog> getBlogArchive(String year);-->
+    <select id="getBlogArchive" resultType="com.spongehah.hahhome.pojo.Blog">
+        SELECT id,
+               title,
+               content,
+               first_Picture,
+               flag,
+               views,
+               commentabled,
+               published,
+               recommendned,
+               editTime,
+               user_id,
+               user_name,
+               description,
+               DATE_FORMAT(createTime, '%m-%d') as createTime
+        from t_blog
+        where DATE_FORMAT(createTime, '%Y') = #{year}
+        and published = 1
+        and type = 0
+        order by createTime desc
+    </select>
+    
+    <!--List<Blog> getSearchBlogs(String title);-->
+    <select id="getSearchBlogs" resultType="com.spongehah.hahhome.pojo.Blog">
+        SELECT tb.id,
+               tb.title,
+               tb.first_Picture,
+               tb.views,
+               tb.recommendned,
+               tb.createTime,
+               tb.editTime,
+               tu.nickname  as user_name,
+               tb.description,
+               COUNT(tc.id) as comment_count
+        from t_blog tb
+                 JOIN t_user tu ON tu.id = tb.user_id
+                 left JOIN t_comment tc ON tc.blog_id = tb.id
+        where tb.title like concat('%',#{title},'%')
+          and tb.published = 1
+          and tb.type = 0
+        GROUP BY tb.id
+        ORDER BY tb.recommendned desc, tb.createTime desc
+    </select>
+</mapper>

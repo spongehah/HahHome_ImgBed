@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spongehah.hahhome.mapper.BlogTagRelationMapper">
+
+    <!--Integer deleteByBlogId(Long blogId);-->
+    <delete id="deleteByBlogId">
+        delete from t_blog_tag_relation where blog_id = #{blogId}
+    </delete>
+    
+    <!--void deleteRelationByBlogId(Long id);-->
+    <delete id="deleteRelationByBlogId">
+        delete from t_blog_tag_relation where blog_id = #{id}
+    </delete>
+</mapper>
