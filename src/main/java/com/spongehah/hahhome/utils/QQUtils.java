@@ -16,7 +16,7 @@ public class QQUtils {
         StringBuilder jsonString=new StringBuilder(  );
         URLConnection connection=null;
         try {
-            URL urlObject=new URL("https://r.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?g_tk=1518561325&uins="+qq);
+            URL urlObject=new URL("https://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins="+qq);
             connection = urlObject.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(),"GBK"));
             String inputLine = null;
@@ -43,7 +43,7 @@ public class QQUtils {
     }
 
     public static void main (String[] args) {
-        QQ qqInfo = getQQInfo(1870562227L);
+        QQ qqInfo = getQQInfo(2635879218L);
         System.out.println(qqInfo );
     }
 }
