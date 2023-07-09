@@ -25,9 +25,13 @@
                     <i class="eye green icon"></i>&nbsp;[[${blog.views}]]
                 </div>
                 <div class="item">
-                    <i class="edit blue icon"></i>&nbsp;<!--[[${blog.edittime!=null &&
+                    <i class="clock outline blue icon"></i>&nbsp;<!--[[${blog.edittime!=null &&
                     blog.edittime!=''?blog.edittime:blog.createtime}]]-->
                     [[${blog.createtime}]]
+                </div>
+                <div class="item">
+                    <i class="edit blue icon"></i>&nbsp;
+                    [[${blog.edittime!=null && blog.edittime!=''?blog.edittime:' '}]]
                 </div>
                 <div class="item">
                     <i class="comment alternate outline orange icon"></i>&nbsp;[[${blog.commentCount}]]

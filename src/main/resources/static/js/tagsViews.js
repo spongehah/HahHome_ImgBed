@@ -72,6 +72,11 @@ function blogTagsShowList(pageNum,pageSize,tagId) {
                                                 $("<i class=\"clock outline blue icon\"></i>")
                                             ).append(/*item.edittime != null && item.edittime != '' ? " " + item.edittime : " " + */item.createtime)
                                         ).append(
+                                            //修改时间
+                                            $("<div class=\"item\"></div>").append(
+                                                $("<i class=\"edit blue icon\"></i>")
+                                            ).append(item.edittime != null && item.edittime != '' ? " " + item.edittime : " ")
+                                        ).append(
                                             // 浏览量
                                             $("<div class=\"item\"></div>").append(
                                                 $("<i class=\"eye green icon\"></i>")
