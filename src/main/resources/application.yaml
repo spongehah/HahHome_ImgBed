@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3306/hah_home?useSSL=false&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: zw2635879218@
+    password: 123456
     
     ##############  Druid数据源  ###############
     druid:
@@ -39,7 +39,7 @@ spring:
     host: 47.115.207.49
     port: 6379
     database: 0
-    password: zw2635879218@
+    password: 123456
     client-type: lettuce      #jedis时更换为jedis
     lettuce:     #在这个下面设置jedis或者lettuce的具体配置
       pool:
