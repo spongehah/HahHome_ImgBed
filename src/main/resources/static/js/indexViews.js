@@ -88,7 +88,7 @@ $(function () {
                                             //创建时间
                                             $("<div class=\"item\"></div>").append(
                                                 $("<i class=\"clock outline blue icon\"></i>")
-                                            ).append(item.edittime != null && item.edittime != '' ? " " + item.edittime : " " + item.createtime)
+                                            ).append(/*item.edittime != null && item.edittime != '' ? " " + item.edittime : " " + */item.createtime)
                                         ).append(
                                             // 浏览量
                                             $("<div class=\"item\"></div>").append(
