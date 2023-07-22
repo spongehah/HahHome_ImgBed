@@ -128,7 +128,12 @@
                     $("<tr></tr>").append(
                         $("<td></td").append(index)
                     ).append(
-                        $("<td></td").append(item.title)
+                        $("<td></td").append(item.title).css({
+                            "white-space": "nowrap",
+                            "overflow": "hidden",
+                            "text-overflow": "ellipsis",
+                            "max-width": "100px"
+                        })
                     ).append(
                         $("<td></td").append(item.flag)
                     ).append(
