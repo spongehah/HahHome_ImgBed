@@ -95,7 +95,7 @@ public class BlogCommentController {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             Blog blog = blogService.getBlogSimpleById(comment.getBlogId());
-            String url = MailDataUtils.DOMAIN_NAME + "/toBlog" + blog.getId();
+            String url = MailDataUtils.DOMAIN_NAME + "/toBlog/" + blog.getId();
             if (blog.getType().equals("2")) {
                 url = MailDataUtils.DOMAIN_NAME + "/toAbout";
             } else if (blog.getType().equals("1")) {
