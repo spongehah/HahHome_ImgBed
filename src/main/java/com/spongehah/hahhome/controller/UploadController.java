@@ -30,8 +30,8 @@ public class UploadController {
         if(jessionids == null || jessionids.isEmpty()){
             return ResultMsg.getFailedMsg("jessionids 不能为空");
         }
-        if(!jessionids.equals("9be51d2f-bb1a-4c61-.........11d661570588000594"))    //自定义你的图片上传验证码，需此请求体中配该jsonid才能上传图片，
-                                                                                // 图床配置详情参考https://blog.csdn.net/bdqx_007/article/details/102459184?spm=1001.2014.3001.5506
+        if(!jessionids.equals("9be51d2f-bb1a-4c61-b989-c3d126211d661570588000594"))     //自定义你的图片上传验证码，需此请求体中配该jsonid才能上传图片，
+                                                                                        // 图床配置详情参考https://blog.csdn.net/bdqx_007/article/details/102459184?spm=1001.2014.3001.5506
             return ResultMsg.getFailedMsg("jessionids 错误");
 
         long size = (long) file.getSize();
